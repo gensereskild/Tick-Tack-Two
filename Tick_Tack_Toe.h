@@ -1,5 +1,5 @@
 #ifndef TICK_TACK_TOE_H
-#define Tick_TACK_TOE_H
+#define TICK_TACK_TOE_H
 
 typedef struct brett{
     char brettarray[3][3];

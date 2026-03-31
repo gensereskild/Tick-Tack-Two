@@ -4,18 +4,6 @@
 #include <stdbool.h>
 #include "Vindu.h"
 
-//const wchar_t
-// LRESULT CALLBACK windowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
-//     switch(uMsg){
-//         case WM_DESTROY:
-//             PostQuitMessage(0);
-//             return 0;
-//         default:
-//             return DefWindowProc(hwnd, uMsg, wParam, lParam);
-//     }
-// }
-
-
 LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPARAM lParam){
     switch(message){
         case WM_QUIT:
@@ -84,12 +72,5 @@ int skapeVindu(HWND *hwnd){
     ShowWindow(*hwnd, SW_SHOW);
     UpdateWindow(*hwnd);
 
-    // MSG msg;
-    // while(GetMessage(&msg, NULL, 0, 0)){
-    //     TranslateMessage(&msg);
-    //     DispatchMessage(&msg);
-    // }
-
-    //return (int)msg.wParam;
     return 0;
 }
