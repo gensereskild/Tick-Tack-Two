@@ -32,6 +32,7 @@ int main(int argc, char* argv[]){
         } else{
             InvalidateRect(hwnd, NULL, FALSE);
             brettGrafikk(NULL, piksler);
+            // printf("Bitmap Verdi %p \n", bitmap);
         }
     }
     printf("Test etter");

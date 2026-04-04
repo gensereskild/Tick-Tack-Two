@@ -1,5 +1,5 @@
-//Poenget med denne er å oppdatere bitmappen til å endre grafikken.
-//Tar inn pointer til brett, og pointer til bitmap.
+//Poenget med denne er å oppdatere pikslerpen til å endre grafikken.
+//Tar inn pointer til brett, og pointer til piksler.
 //man tegner fra øvre venstre hjørnet og nedover
 
 #include "Tick_Tack_Toe.h"
@@ -13,7 +13,7 @@ enum{
     vertikal = 2
 };
 
-void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, int farge, int* bitmap){
+void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, int farge, int* piksler){
     //Kan kode slik at man bytter plass, men tror ikke jeg gidder
     xStart = xStart*width/100;
     xStopp = xStopp*width/100;
@@ -29,13 +29,13 @@ void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, 
     if(yStart==yStopp){
         for (; currentX < xStopp; currentX++)
         {
-            //bitmap[((int) yStart) * width + x] = farge;
+            //piksler[((int) yStart) * width + x] = farge;
             //Tegner bredden
             for(int i = 0; i<(bredde+1)/2; i++){
-                //Tegner ikke utenfor bitmappen fyfy
+                //Tegner ikke utenfor pikslerpen fyfy
                 if((((int)yStart +i) >= height) || (((int)yStart -i) <= 0)) continue;
-                bitmap[((int)yStart + i)*width + currentX] = farge;
-                bitmap[((int)yStart - i)*width + currentX] = farge;
+                piksler[((int)yStart + i)*width + currentX] = farge;
+                piksler[((int)yStart - i)*width + currentX] = farge;
             }
         }
     }
@@ -44,10 +44,10 @@ void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, 
         for (; currentY < yStopp; currentY++)
         {
             for(int i = 0; i<(bredde+1)/2; i++){
-                //Tegner ikke utenfor bitmappen fyfy
+                //Tegner ikke utenfor pikslerpen fyfy
                 if((((int)xStart +i) >= width) || (((int)xStart -i) <= 0)) continue;
-                bitmap[(currentY)*width + ((int)xStart)+i] = farge;
-                bitmap[(currentY)*width +((int) xStart)-i] = farge;
+                piksler[(currentY)*width + ((int)xStart)+i] = farge;
+                piksler[(currentY)*width +((int) xStart)-i] = farge;
             }
         }
     }
@@ -59,13 +59,13 @@ void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, 
             // }
             //Tegner bredden
             for(int i = 0; i<(bredde+1)/2; i++){
-                //Tegner ikke utenfor bitmappen fyfy
+                //Tegner ikke utenfor pikslerpen fyfy
                 if((((int)y +i) >= height) || (((int)y -i) <= 0)) continue;
-                bitmap[((int)y + i)*width + currentX] = farge;
-                bitmap[((int)y - i)*width + currentX] = farge;
+                piksler[((int)y + i)*width + currentX] = farge;
+                piksler[((int)y - i)*width + currentX] = farge;
             }
 
-            //bitmap[((int)y)*width + currentX] = farge;
+            //piksler[((int)y)*width + currentX] = farge;
             currentX++;
         }
     }
@@ -74,10 +74,10 @@ void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, 
         int currentY = yStart;
         for(float x = xStart; x<xStopp; x+=(1/stigningstall)){
             for(int i = 0; i<(bredde+1)/2; i++){
-                //Tegner ikke utenfor bitmappen fyfy
+                //Tegner ikke utenfor pikslerpen fyfy
                 if((((int)x +i) >= width) || (((int)x -i) <= 0)) continue;
-                bitmap[(currentY)*width + ((int)x)+i] = farge;
-                bitmap[(currentY)*width +((int) x)-i] = farge;
+                piksler[(currentY)*width + ((int)x)+i] = farge;
+                piksler[(currentY)*width +((int) x)-i] = farge;
             }
             currentY++;
         }
@@ -85,24 +85,38 @@ void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, 
 }
 
 
-void brettGrafikk(brett* brett1, int* bitmap){
+void brettGrafikk(brett* brett1, int* piksler){
     
-    // stripe(20, 20, 60, 40, 1, hvit, bitmap);
-    // stripe(0,0,100,100,10,hvit,bitmap);
-    // stripe(10,10,100,10,50,hvit,bitmap);
-    // stripe(20,20,30,90,20,hvit,bitmap);
-    // stripe(50,0,50,100,25,hvit,bitmap);
+    // stripe(20, 20, 60, 40, 1, hvit, piksler);
+    // stripe(0,0,100,100,10,hvit,piksler);
+    // stripe(10,10,100,10,50,hvit,piksler);
+    // stripe(20,20,30,90,20,hvit,piksler);
+    // stripe(50,0,50,100,25,hvit,piksler);
 
     //Firkant
-    stripe(10,10,10,90,10,hvit,bitmap);
-    stripe(10,10,90,10,10,hvit,bitmap);
-    stripe(10,90,90,90,10,hvit,bitmap);
-    stripe(90,10,90,90,10,hvit,bitmap);
+    stripe(10,10,10,90,10,hvit,piksler);
+    stripe(10,10,90,10,10,hvit,piksler);
+    stripe(10,90,90,90,10,hvit,piksler);
+    stripe(90,10,90,90,10,hvit,piksler);
 
-    stripe(35,10,35,90,10,hvit,bitmap);
-    stripe(60,10,60,90,10,hvit,bitmap);
-    stripe(10,35,90,35,10,hvit,bitmap);
-    stripe(10,60,90,60,10,hvit,bitmap);
+    stripe(35,10,35,90,10,hvit,piksler);
+    stripe(60,10,60,90,10,hvit,piksler);
+    stripe(10,35,90,35,10,hvit,piksler);
+    stripe(10,60,90,60,10,hvit,piksler);
+
+    BITMAPINFO bmi = {0};
+        bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        bmi.bmiHeader.biWidth = 800;
+        bmi.bmiHeader.biHeight = -600;
+        bmi.bmiHeader.biPlanes = 1;
+        bmi.bmiHeader.biBitCount = 32;
+        bmi.bmiHeader.biCompression = BI_RGB;
+
+    SetDIBitsToDevice(memDC, 0,0,800, 600,
+    0,0,0,600,
+    piksler, &bmi, DIB_RGB_COLORS);
+
+    TextOut(memDC, 300, 300, "test",4);
 }
 
 //Argumenter: start, stopp, bredde, horisontal/vertikal

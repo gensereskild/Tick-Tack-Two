@@ -5,42 +5,32 @@
 #include "Vindu.h"
 
 HDC memDC = NULL;
+HBITMAP bitmap= NULL;
 
 LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPARAM lParam){
     switch(message){
         case WM_QUIT:
         case WM_DESTROY: {
+            DeleteObject(bitmap);
+            DeleteDC(memDC);
             PostQuitMessage(0);
             return 0;
         }break;
+        case WM_CREATE: {
+            HDC hdc = GetDC(window_handle);
+            //Peker til memDC
+            memDC = CreateCompatibleDC(hdc);
+            bitmap = CreateCompatibleBitmap(memDC, width, height);
+            SelectObject(memDC, bitmap);
+            printf("Test at vi aktiverer WM_create");
+            return 0;
+        }
     case WM_PAINT: {
         PAINTSTRUCT paint;
         HDC hdc = BeginPaint(window_handle, &paint);
-
-        memDC = CreateCompatibleDC(hdc);
-        HBITMAP bitmap = CreateCompatibleBitmap(hdc, 800, 600);
-        SelectObject(memDC, bitmap);
-
-        //Get aaccess to pixel data
-        BITMAPINFO bmi = {0};
-        bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        bmi.bmiHeader.biWidth = 800;
-        bmi.bmiHeader.biHeight = -600;
-        bmi.bmiHeader.biPlanes = 1;
-        bmi.bmiHeader.biBitCount = 32;
-        bmi.bmiHeader.biCompression = BI_RGB;
-
-        //Kopierer buffer til vindu
-        SetDIBitsToDevice(memDC, 0,0,800, 600,
-            0,0,0,600,
-            piksler, &bmi, DIB_RGB_COLORS);
-        
-        TextOut(memDC, 100, 100, "Tekst", 5);
         
         BitBlt(hdc, 0, 0, width, height, memDC, 0, 0, SRCCOPY);
 
-        DeleteObject(bitmap);
-        DeleteDC(memDC);
 
         EndPaint(window_handle, &paint);
         return 0;
