@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include "Vindu.h"
 
+HDC memDC = NULL;
+
 LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPARAM lParam){
     switch(message){
         case WM_QUIT:
@@ -15,7 +17,7 @@ LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPA
         PAINTSTRUCT paint;
         HDC hdc = BeginPaint(window_handle, &paint);
 
-        HDC memDC = CreateCompatibleDC(hdc);
+        memDC = CreateCompatibleDC(hdc);
         HBITMAP bitmap = CreateCompatibleBitmap(hdc, 800, 600);
         SelectObject(memDC, bitmap);
 
@@ -29,9 +31,13 @@ LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPA
         bmi.bmiHeader.biCompression = BI_RGB;
 
         //Kopierer buffer til vindu
-        SetDIBitsToDevice(hdc, 0,0,800, 600,
+        SetDIBitsToDevice(memDC, 0,0,800, 600,
             0,0,0,600,
             piksler, &bmi, DIB_RGB_COLORS);
+        
+        TextOut(memDC, 100, 100, "Tekst", 5);
+        
+        BitBlt(hdc, 0, 0, width, height, memDC, 0, 0, SRCCOPY);
 
         DeleteObject(bitmap);
         DeleteDC(memDC);

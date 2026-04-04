@@ -16,4 +16,6 @@ int skapeVindu(HWND *hwnd);
 
 void brettGrafikk(brett *brett1, int* bitmap);
 
+extern HDC memDC;
+
 #endif
