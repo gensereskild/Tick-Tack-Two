@@ -20,8 +20,19 @@ LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPA
             HDC hdc = GetDC(window_handle);
             //Peker til memDC
             memDC = CreateCompatibleDC(hdc);
-            bitmap = CreateCompatibleBitmap(memDC, width, height);
+
+            BITMAPINFO bmi = {0};
+            bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+            bmi.bmiHeader.biWidth = width;
+            bmi.bmiHeader.biHeight = -height;
+            bmi.bmiHeader.biPlanes = 1;
+            bmi.bmiHeader.biBitCount = 32;
+            bmi.bmiHeader.biCompression = BI_RGB;
+
+            void *pixels;
+            bitmap = CreateDIBSection(memDC, &bmi, DIB_RGB_COLORS, pixels, NULL, 0);
             SelectObject(memDC, bitmap);
+
             printf("Test at vi aktiverer WM_create");
             return 0;
         }
