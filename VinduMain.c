@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "Vindu.h"
 #include <time.h>
+#include "Tick_Tack_Toe.h"
 
 int width = 800;
 int height = 600;
@@ -22,8 +23,13 @@ int main(int argc, char* argv[]){
     skapeVindu(&hwnd);
     srand(time(NULL));
 
-    MSG msg;
+    //Eksempel brett bare for å kunne tegne det
+    brett brett1 = {
+        .brettarray={{'E','E','E'},{'E','E','E'},{'E','E','E'}},
+        .status = '0',
+    };
 
+    MSG msg;
     while(1){
         if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)){
             if(msg.message == WM_QUIT) break;
@@ -31,7 +37,7 @@ int main(int argc, char* argv[]){
             DispatchMessage(&msg);
         } else{
             InvalidateRect(hwnd, NULL, FALSE);
-            brettGrafikk(NULL, piksler);
+            brettGrafikk(&brett1, piksler);
             // printf("Bitmap Verdi %p \n", bitmap);
         }
     }

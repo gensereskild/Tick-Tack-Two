@@ -8,6 +8,8 @@
 
 const int hvit = 0x00ffffff;
 
+const int rood = 0x00ff0000;
+
 enum{
     horisontal =1,
     vertikal = 2
@@ -94,7 +96,7 @@ void brettGrafikk(brett* brett1, int* piksler){
     // stripe(50,0,50,100,25,hvit,piksler);
 
     //Firkant
-    stripe(10,10,10,90,10,hvit,piksler);
+    stripe(10,10,10,90,10,rood,piksler);
     stripe(10,10,90,10,10,hvit,piksler);
     stripe(10,90,90,90,10,hvit,piksler);
     stripe(90,10,90,90,10,hvit,piksler);
@@ -112,11 +114,25 @@ void brettGrafikk(brett* brett1, int* piksler){
         bmi.bmiHeader.biBitCount = 32;
         bmi.bmiHeader.biCompression = BI_RGB;
 
+    void *pixels;
+    
     SetDIBitsToDevice(memDC, 0,0,800, 600,
     0,0,0,600,
     piksler, &bmi, DIB_RGB_COLORS);
+    
+    HFONT font = CreateFont(40,0,0,0,FW_BOLD,FALSE,FALSE,FALSE,ANSI_CHARSET,
+            OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH, "Arial");
 
-    TextOut(memDC, 300, 300, "test",4);
+    SelectObject(memDC, font);
+    //SetBkMode(memDC, TRANSPARENT);
+    SetTextColor(memDC, RGB(255,255,255));
+
+    char symbol[2] = {0};
+    for(int i = 0; i<9; i++){
+        symbol[0] = (*(brett1)).brettarray[i/3][i%3];
+        printf("Nåværende symbol: %s \n", symbol);
+        TextOut(memDC, ((i%3)*250)+150, ((i/3)*150)+150, symbol,1);
+    }
 }
 
 //Argumenter: start, stopp, bredde, horisontal/vertikal
