@@ -3,13 +3,14 @@
 #include <wingdi.h>
 #include <stdbool.h>
 #include "Vindu.h"
+#include <windowsx.h>
 
 HDC memDC = NULL;
 HBITMAP bitmap= NULL;
 
 LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPARAM lParam){
     switch(message){
-        case WM_QUIT:
+        //case WM_QUIT:
         case WM_DESTROY: {
             DeleteObject(bitmap);
             DeleteDC(memDC);
@@ -36,6 +37,22 @@ LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPA
             printf("Test at vi aktiverer WM_create");
             return 0;
         }
+        case WM_ERASEBKGND:{
+            return 1;
+        }
+    case WM_MOUSEMOVE: {
+        // int x = GET_X_LPARAM(lParam);
+        // int y = GET_Y_LPARAM(lParam);
+        //printf("posisjon til mus: %d, %d \n",x,y);
+        break;
+    }
+    case WM_LBUTTONDOWN: {
+
+        int x = GET_X_LPARAM(lParam);
+        int y = GET_Y_LPARAM(lParam);
+        printf("posisjon til mus: %d, %d \n",x,y);
+        break;
+    }
     case WM_PAINT: {
         PAINTSTRUCT paint;
         HDC hdc = BeginPaint(window_handle, &paint);
@@ -68,7 +85,7 @@ int skapeVindu(HWND *hwnd){
         0,
         "MyWindowClass",
         "My First Window",
-        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 600,
+        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height,
     NULL, NULL, hInstance, NULL);
 
     if(!*hwnd) return -1;

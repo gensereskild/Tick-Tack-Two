@@ -10,10 +10,9 @@ const int hvit = 0x00ffffff;
 
 const int rood = 0x00ff0000;
 
-enum{
-    horisontal =1,
-    vertikal = 2
-};
+//Argumenter: start, stopp, bredde, horisontal/vertikal
+//Start og stopp er oppgitt som % av hele skjermen.
+// void stripe(int start, int stopp, int bredde, char retning)
 
 void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, int farge, int* piksler){
     //Kan kode slik at man bytter plass, men tror ikke jeg gidder
@@ -24,25 +23,29 @@ void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, 
 
 
     //Høyt stigningstall = bratt linje == Tegne få piksler langs x aksen
-    float stigningstall = (yStopp-yStart)/(xStopp-xStart);
+    float stigningstall = 0.0;
+
+    if((int) xStopp - (int)xStart!=0){
+        stigningstall = (yStopp-yStart)/(xStopp-xStart);
+    }
     //currentX er x verdien til pikslen man maler
     int currentX = xStart;
+    int currentY = yStart;
 
-    if(yStart==yStopp){
+    if((int) yStart== (int) yStopp){
         for (; currentX < xStopp; currentX++)
         {
             //piksler[((int) yStart) * width + x] = farge;
             //Tegner bredden
             for(int i = 0; i<(bredde+1)/2; i++){
-                //Tegner ikke utenfor pikslerpen fyfy
+                //Tegner ikke utenfor piksler fyfy
                 if((((int)yStart +i) >= height) || (((int)yStart -i) <= 0)) continue;
                 piksler[((int)yStart + i)*width + currentX] = farge;
                 piksler[((int)yStart - i)*width + currentX] = farge;
             }
         }
     }
-    int currentY = yStart;
-    if(xStart==xStopp){
+    else if((int) xStart==(int) xStopp){
         for (; currentY < yStopp; currentY++)
         {
             for(int i = 0; i<(bredde+1)/2; i++){
@@ -53,7 +56,7 @@ void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, 
             }
         }
     }
-    if(stigningstall <=1){
+    else if((stigningstall <=1) && (stigningstall != 0.0)){
         for (float y = yStart; y < yStopp; y+=stigningstall)
         {
             // for(float x = xStart; x<xStopp;){
@@ -63,8 +66,12 @@ void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, 
             for(int i = 0; i<(bredde+1)/2; i++){
                 //Tegner ikke utenfor pikslerpen fyfy
                 if((((int)y +i) >= height) || (((int)y -i) <= 0)) continue;
-                piksler[((int)y + i)*width + currentX] = farge;
-                piksler[((int)y - i)*width + currentX] = farge;
+                printf("Stigninstall verdi %f \n", stigningstall);
+                // printf("Verdi til bredden %d \n", (int) width);
+                // printf("Verdi til y %d \n", (int) y +i);
+                // fflush(0);
+                //piksler[((int)y + i)*width + currentX] = farge;
+                //piksler[((int)y - i)*width + currentX] = farge;
             }
 
             //piksler[((int)y)*width + currentX] = farge;
@@ -86,36 +93,59 @@ void stripe(float xStart, float yStart, float xStopp, float yStopp, int bredde, 
     }
 }
 
+void tegnBrettGrafikk(float x_start, float y_start, float breddeBrett, float hooydeBrett){
 
-void brettGrafikk(brett* brett1, int* piksler){
+    float strekBredde = 4;
+    float indreStrekBredde = 3;
+    //må gjøre om strekbredde i piksler til % bredde av skjermen
+    //strekBredde / width * 100
+    //Det ble feil...
     
-    // stripe(20, 20, 60, 40, 1, hvit, piksler);
-    // stripe(0,0,100,100,10,hvit,piksler);
-    // stripe(10,10,100,10,50,hvit,piksler);
-    // stripe(20,20,30,90,20,hvit,piksler);
-    // stripe(50,0,50,100,25,hvit,piksler);
-
+    float breddeProsent = (strekBredde/4.0)/((float)width)*100.0;
     //Firkant
-    stripe(10,10,10,90,10,hvit,piksler);
-    stripe(10,10,90,10,10,hvit,piksler);
-    stripe(10,90,90,90,10,hvit,piksler);
-    stripe(90,10,90,90,10,hvit,piksler);
+    stripe(x_start , y_start, x_start+breddeBrett + breddeProsent ,y_start, strekBredde,hvit,piksler);
+    stripe(x_start, y_start, x_start, y_start+hooydeBrett + breddeProsent, strekBredde,hvit,piksler);
+    stripe(x_start+breddeBrett, y_start, x_start+breddeBrett, y_start+hooydeBrett +breddeProsent, strekBredde,hvit,piksler);
+    stripe(x_start, y_start+hooydeBrett, x_start+breddeBrett, y_start+hooydeBrett, strekBredde, hvit,piksler);
 
-    stripe(35,10,35,90,10,hvit,piksler);
-    stripe(60,10,60,90,10,hvit,piksler);
-    stripe(10,35,90,35,10,hvit,piksler);
-    stripe(10,60,90,60,10,hvit,piksler);
+    // for(int i =0; i<9; i++){
+        
+    // }
+    //Horisontale linjer
+    stripe(x_start,y_start + 1.0/3.0*hooydeBrett,x_start + breddeBrett, y_start+(((float)(1))/3)*hooydeBrett,indreStrekBredde,hvit,piksler);
+    stripe(x_start,y_start + 2.0/3.0*hooydeBrett,x_start + breddeBrett, y_start+(2.0/3.0)*hooydeBrett,indreStrekBredde,hvit,piksler);
+    //Vertiakle linjer
+    stripe(x_start + 1.0/3.0*breddeBrett, y_start, x_start + 1.0/3.0*breddeBrett, y_start+hooydeBrett, indreStrekBredde, hvit, piksler);
+    stripe(x_start + 2.0/3.0*breddeBrett, y_start, x_start + 2.0/3.0*breddeBrett, y_start+hooydeBrett, indreStrekBredde, hvit, piksler);
 
+    return;
+}
+
+void brettGrafikk(Superbrett* superBrett, int* piksler){
+
+    // tegnBrettGrafikk(20.0,10.0, 17.0, 25.0);
+    // tegnBrettGrafikk(20.0,30.0, 17.0, 25.0);
+
+    for(int i =0; i<9; i++){
+        //tegnBrettGrafikk(20.0,10.0, 17.0, 25.0);
+        printf("Verdi til i %d %d \n", i/3, i%3);
+        printf("Test av desimaltall ting %f \n", 10.0*(i%3));
+        //tegnBrettGrafikk(20.0,50.0, 17.0, 25.0);
+
+        //tegnBrettGrafikk(20.0 +(i%3)*20, 10.0 + i*2, 17.0, 25.0);
+        tegnBrettGrafikk(20.0 + 20.0*(i/3), 7.5 + 27.0*(i%3), 17.0, 25.0);
+    }
+    
     BITMAPINFO bmi = {0};
         bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        bmi.bmiHeader.biWidth = 800;
-        bmi.bmiHeader.biHeight = -600;
+        bmi.bmiHeader.biWidth = width;
+        bmi.bmiHeader.biHeight = -height;
         bmi.bmiHeader.biPlanes = 1;
         bmi.bmiHeader.biBitCount = 32;
         bmi.bmiHeader.biCompression = BI_RGB;
 
-    SetDIBitsToDevice(memDC, 0,0,800, 600,
-    0,0,0,600,
+    SetDIBitsToDevice(memDC, 0,0,width, height,
+    0,0,0,height,
     piksler, &bmi, DIB_RGB_COLORS);
     
     HFONT font = CreateFont(40,0,0,0,FW_BOLD,FALSE,FALSE,FALSE,ANSI_CHARSET,
@@ -125,14 +155,11 @@ void brettGrafikk(brett* brett1, int* piksler){
     SetBkMode(memDC, TRANSPARENT);
     SetTextColor(memDC, RGB(0,255,0));
 
-    char symbol[2] = {0};
-    for(int i = 0; i<9; i++){
-        symbol[0] = (*(brett1)).brettarray[i/3][i%3];
-        TextOut(memDC, ((i%3)*250)+150, ((i/3)*150)+150, symbol,1);
-    }
+    //char symbol[2] = {0};
+    // for(int i = 0; i<9; i++){
+    //     symbol[0] = (*(brett1)).brettarray[i/3][i%3];
+    //     TextOut(memDC, ((i%3)*250)+150, ((i/3)*150)+150, symbol,1);
+    // }
 }
 
-//Argumenter: start, stopp, bredde, horisontal/vertikal
-//Start og stopp er oppgitt som % av hele skjermen.
-// void stripe(int start, int stopp, int bredde, char retning)
 

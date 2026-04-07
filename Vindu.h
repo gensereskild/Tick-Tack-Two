@@ -14,7 +14,7 @@ LRESULT CALLBACK windowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int skapeVindu(HWND *hwnd);
 
-void brettGrafikk(brett *brett1, int* bitmap);
+void brettGrafikk(Superbrett *brett1, int* bitmap);
 
 extern HDC memDC;
 extern HBITMAP bitmap;

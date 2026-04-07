@@ -8,12 +8,14 @@
                 "./VinduMain.c",
                 "./Vindu.c",
                 "./BrettGrafikk.c",
+                "./Tick_Tack_Toe_3X.c",
                 "-o",
                 "${fileDirname}\\VinduMain.exe",
                 "-luser32",
                 "-lgdi32",
                 "-Wall",
-                "-Wformat"
+                "-Wformat",
+                "-g"
             ],
             "options": {
                 "cwd": "${fileDirname}"

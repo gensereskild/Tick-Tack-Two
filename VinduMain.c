@@ -4,17 +4,19 @@
 #include <time.h>
 #include "Tick_Tack_Toe.h"
 
-int width = 800;
-int height = 600;
+int width;
+int height;
 int* piksler = NULL;
 
 int main(int argc, char* argv[]){
+    width = GetSystemMetrics(SM_CXSCREEN);
+    height = GetSystemMetrics(SM_CYSCREEN);
     //Initialiserer eksternt bitmap heter for piksler
     piksler = malloc(sizeof(unsigned int) * width * height);
 
-    for(int y = 0; y<600; y++){
-        for(int x = 0; x<800; x++){
-            piksler[y*800+x]= 0x00000000;
+    for(int y = 0; y<height; y++){
+        for(int x = 0; x<width; x++){
+            piksler[y*width+x]= 0x00000000;
         }
     }
     printf("test før \n");
@@ -23,6 +25,12 @@ int main(int argc, char* argv[]){
     skapeVindu(&hwnd);
     srand(time(NULL));
 
+    //Eksempel Superbrett;
+    Superbrett superbrett = {
+        .brettarray = {{},{},{}}
+    };
+    initSuperbrett(&superbrett);
+    tegnSuperBrett(&superbrett);
     //Eksempel brett bare for å kunne tegne det
     brett brett1 = {
         .brettarray={{'E','E','E'},{'E','E','E'},{'E','E','E'}},
@@ -37,7 +45,7 @@ int main(int argc, char* argv[]){
             DispatchMessage(&msg);
         } else{
             InvalidateRect(hwnd, NULL, FALSE);
-            brettGrafikk(&brett1, piksler);
+            brettGrafikk(&superbrett, piksler);
             // printf("Bitmap Verdi %p \n", bitmap);
         }
     }

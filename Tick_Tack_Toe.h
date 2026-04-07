@@ -6,5 +6,17 @@ typedef struct brett{
     char status;
 } brett;
 
+
+typedef struct Superbrett{
+    brett brettarray[3][3];
+} Superbrett;
+
 void tegnBrett(brett* brett);
+
+void initSuperbrett(Superbrett*);
+
+void tegnSuperBrett(Superbrett*);
+
+int sjekkTotalSeier(Superbrett*);
+
 #endif

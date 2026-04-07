@@ -9,9 +9,6 @@
 
 //Status er 0 dersom brettet framleis pågår, 1 dersom X har vunnet, 2 Dersom O har vunnet og 3 dersom tie
 
-typedef struct Superbrett{
-    brett brettarray[3][3];
-} Superbrett;
 
 // void tegnBrett( brett *brett1){
 //     for(int y = 0; y<3; y++){
@@ -128,7 +125,7 @@ int sjekkTotalSeier(Superbrett *Superbrett){
     return Superstatus;
 }
 
-void InitSuperbrett(Superbrett *Superbrett){
+void initSuperbrett(Superbrett *Superbrett){
     brett tomtBrett = {
         .brettarray={{'E','E','E'},{'E','E','E'},{'E','E','E'}},
         .status = 0
@@ -149,25 +146,25 @@ void InitSuperbrett(Superbrett *Superbrett){
 // / \\\//
 // \_/
 
-int main(){
-    Superbrett Superbrett = {
-        .brettarray={{},{},{},}
-    };
-    bool spiller1tur = true;
-    int status=0;
-    //Tur runde
-    InitSuperbrett(&Superbrett);
-    tegnSuperBrett(&Superbrett);
+// int main(){
+//     Superbrett Superbrett = {
+//         .brettarray={{},{},{},}
+//     };
+//     bool spiller1tur = true;
+//     int status=0;
+//     //Tur runde
+//     InitSuperbrett(&Superbrett);
+//     tegnSuperBrett(&Superbrett);
 
-    while (sjekkTotalSeier(&Superbrett)==0){
-    userInput(&Superbrett, spiller1tur);
-    tegnSuperBrett(&Superbrett);
-    sjekkTotalSeier(&Superbrett);
-    spiller1tur ? (spiller1tur=false) : (spiller1tur = true);
-    }  
+//     while (sjekkTotalSeier(&Superbrett)==0){
+//     userInput(&Superbrett, spiller1tur);
+//     tegnSuperBrett(&Superbrett);
+//     sjekkTotalSeier(&Superbrett);
+//     spiller1tur ? (spiller1tur=false) : (spiller1tur = true);
+//     }  
 
-//     while(status==0){
+// //     while(status==0){
         
-//         spiller1tur ? (spiller1tur=false) : (spiller1tur = true);
-//     }
-}
+// //         spiller1tur ? (spiller1tur=false) : (spiller1tur = true);
+// //     }
+// }
