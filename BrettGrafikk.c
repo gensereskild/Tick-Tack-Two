@@ -146,14 +146,26 @@ void brettGrafikk(Superbrett* superBrett, int* piksler){
     0,0,0,height,
     piksler, &bmi, DIB_RGB_COLORS);
     
-    HFONT font = CreateFont(40,0,0,0,FW_BOLD,FALSE,FALSE,FALSE,ANSI_CHARSET,
+    HFONT font = CreateFont(20,0,0,0,FW_BOLD,FALSE,FALSE,FALSE,ANSI_CHARSET,
             OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH, "Arial");
 
     SelectObject(memDC, font);
     SetBkMode(memDC, TRANSPARENT);
     SetTextColor(memDC, RGB(0,255,0));
     
-    TextOut(memDC, 200, 200, "int", 3);
+    //TextOut(memDC, 200, 200, "int", 3);
+    
+    char streng[2];
+    streng[1] = '\0';
+
+    for(int i = 0; i< 9; i++){
+        int startX=((i%3)*width/100)*21.5 +22*width/100;
+        int startY=((i/3)*height/100)*27.5 + 9*height/100;
+        for(int j = 0; j<9; j++){
+            streng[0] = superBrett->brettarray[i/3][i%3].brettarray[j/3][j%3];
+            TextOut(memDC, (((j%3)*width/100)*6)+startX, (((j/3)*height/100)*9.5)+startY, streng, 2);
+        }
+    }
 
     //char symbol[2] = {0};
     // for(int i = 0; i<9; i++){
@@ -161,5 +173,3 @@ void brettGrafikk(Superbrett* superBrett, int* piksler){
     //     TextOut(memDC, ((i%3)*250)+150, ((i/3)*150)+150, symbol,1);
     // }
 }
-
-
