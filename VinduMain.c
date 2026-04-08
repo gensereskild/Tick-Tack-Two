@@ -7,6 +7,9 @@
 int width;
 int height;
 int* piksler = NULL;
+Superbrett superbrett = {
+        .brettarray = {{},{},{}}
+};
 
 int main(int argc, char* argv[]){
     width = GetSystemMetrics(SM_CXSCREEN);
@@ -26,16 +29,13 @@ int main(int argc, char* argv[]){
     srand(time(NULL));
 
     //Eksempel Superbrett;
-    Superbrett superbrett = {
-        .brettarray = {{},{},{}}
-    };
     initSuperbrett(&superbrett);
     tegnSuperBrett(&superbrett);
     //Eksempel brett bare for å kunne tegne det
-    brett brett1 = {
-        .brettarray={{'E','E','E'},{'E','E','E'},{'E','E','E'}},
-        .status = '0',
-    };
+    // brett brett1 = {
+    //     .brettarray={{'E','E','E'},{'E','E','E'},{'E','E','E'}},
+    //     .status = '0',
+    // };
 
     MSG msg;
     while(1){

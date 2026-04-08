@@ -128,8 +128,6 @@ void brettGrafikk(Superbrett* superBrett, int* piksler){
 
     for(int i =0; i<9; i++){
         //tegnBrettGrafikk(20.0,10.0, 17.0, 25.0);
-        printf("Verdi til i %d %d \n", i/3, i%3);
-        printf("Test av desimaltall ting %f \n", 10.0*(i%3));
         //tegnBrettGrafikk(20.0,50.0, 17.0, 25.0);
 
         //tegnBrettGrafikk(20.0 +(i%3)*20, 10.0 + i*2, 17.0, 25.0);
@@ -154,6 +152,8 @@ void brettGrafikk(Superbrett* superBrett, int* piksler){
     SelectObject(memDC, font);
     SetBkMode(memDC, TRANSPARENT);
     SetTextColor(memDC, RGB(0,255,0));
+    
+    TextOut(memDC, 200, 200, "int", 3);
 
     //char symbol[2] = {0};
     // for(int i = 0; i<9; i++){

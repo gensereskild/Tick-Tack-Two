@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <wingdi.h>
 #include <stdbool.h>
+#include "Tick_Tack_Toe.h"
 #include "Vindu.h"
 #include <windowsx.h>
 
@@ -30,7 +31,7 @@ LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPA
             bmi.bmiHeader.biBitCount = 32;
             bmi.bmiHeader.biCompression = BI_RGB;
 
-            void *pixels;
+            void *pixels[1]={0};
             bitmap = CreateDIBSection(memDC, &bmi, DIB_RGB_COLORS, pixels, NULL, 0);
             SelectObject(memDC, bitmap);
 
@@ -51,6 +52,9 @@ LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPA
         int x = GET_X_LPARAM(lParam);
         int y = GET_Y_LPARAM(lParam);
         printf("posisjon til mus: %d, %d \n",x,y);
+        //tegnSuperBrett(&superbrett);
+        userInput(&superbrett, true, x, y);
+        //printf("Test av superbrett %c \n", superbrett.brettarray[0][0].brettarray[0][0]);
         break;
     }
     case WM_PAINT: {
@@ -66,6 +70,7 @@ LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPA
     default:
     return DefWindowProc(window_handle, message, wParam, lParam);
 }
+return 0;
 }
 
 
@@ -93,7 +98,9 @@ int skapeVindu(HWND *hwnd){
     //Viser og Oppdaterer vinduet
     //Første argument HandleWindow, andre argument modus for å visie vinduet når det blir åpnet av andre
     //prosseser tror jeg 5 åpner det alltid eller no.
-    ShowWindow(*hwnd, SW_SHOW);
+    //SetWindowPos(*hwnd, HWND_TOP, 0, 0, width, height, SWP_FRAMECHANGED);
+    //SetWindowLong(*hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+    ShowWindow(*hwnd, SW_MAXIMIZE);
     UpdateWindow(*hwnd);
 
     return 0;

@@ -1,8 +1,8 @@
 //Målet med programmet er bare å ha 3 på rad i terminalen basically
 //#pragma once
-
 #include <stdio.h>
 #include <stdbool.h>
+#include "Vindu.h"
 #include "Tick_Tack_Toe.h"
 #include <windows.h>
 
@@ -21,7 +21,7 @@
 
 void tegnSuperBrett(Superbrett *Superbrett){
     printf("\n\n\n\n\n\n\n\n");
-    for(char brett_rad = 0; brett_rad<3; brett_rad++){
+    for(int brett_rad = 0; brett_rad<3; brett_rad++){
         printf("----------------------------\n");
         for (int rad = 0; rad < 3; rad++)
         {
@@ -37,30 +37,50 @@ void tegnSuperBrett(Superbrett *Superbrett){
 }
 
 //Hadde vært lettere å spille hvis man velger posisjon 1-9 IMO.
+//Når man trykker får man pikser kordinater, gjør om dette til %kordinater kanskje også
+//sjekker hvilket brett og hvilken rute pikslene er innom.
 
+void userInput(struct Superbrett *superbrett, bool spiller1tur, int musX, int musY){
+    int valgtBrett = 20;
+    for(int i =0; i<9; i++){
+        //Det er denne funksjonen vi bruker for brettene, så vi kan bare mappe til piksler og ruter
+        //tegnBrettGrafikk(20.0 + 20.0*(i/3), 7.5 + 27.0*(i%3), 17.0, 25.0);
+        
+        if((musX>(20 + 20*(i%3))*width/100) && (musX<(37 + 20*(i%3))*width/100) && 
+        (musY>(7.5+27*(i/3))*height/100) && (musY<(32.5+27*(i/3))*height/100)){
+            printf("Du traff første brett %d! \n",i);
+            valgtBrett = i;
+        }
+    }
+    if (valgtBrett==20) return;
 
-void userInput(struct Superbrett *superBrett, bool spiller1tur){
-    int valgtBrett;
-    printf("Spiller %d sin tur, Velg brett fra 1-9 \n", spiller1tur ? (1) : (2));
-    scanf("%d", &valgtBrett);
-    valgtBrett--;
+    int startBrettX = (20 + 20*(valgtBrett%3))*width/100;
+    int startBrettY = (7.5 + 27*(valgtBrett/3))*height/100;
 
-    brett *brett1 = &(superBrett->brettarray[valgtBrett/3][valgtBrett%3]);
+    musX -= startBrettX;
+    musY -= startBrettY;
 
-    int valgtRute;
-    printf("Velg rute fra 1-9 \n");
-    scanf("%d", &valgtRute);
-    valgtRute--;
+    printf("NyVerdi til mus %d, %d \n", musX, musY);
+    int valgtRute = 0;
+    for(int j = 0; j<9; j++){
+        if((musX>(17*width/100)*((float)(j%3)/3)) && (musY>(25*height/100)*((float)(j/3)/3))){
+            if(j>valgtRute){
+                valgtRute=j;
+            }
+        }
+    }
+    printf("Du tryket på rute %d \n", valgtRute);
+
+    brett *brett1 = &(superbrett->brettarray[valgtBrett/3][valgtBrett%3]);
+
 
     if(brett1->status!=0){
         printf("Dette Brettet er ugyldig");
-        userInput(superBrett,spiller1tur);
         return;
     }
 
     if(brett1->brettarray[valgtRute/3][valgtRute%3] !='E'){
         printf("Denne posisjonen er opptatt");
-        userInput(superBrett,spiller1tur);
         return;
     } 
 
@@ -70,6 +90,8 @@ void userInput(struct Superbrett *superBrett, bool spiller1tur){
     else{
         brett1->brettarray[valgtRute/3][valgtRute%3]='O';
     }
+
+    tegnSuperBrett(superbrett);
 }
 
 int sjekk3(char a, char b, char c){
