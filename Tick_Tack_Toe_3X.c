@@ -40,7 +40,7 @@ void tegnSuperBrett(Superbrett *Superbrett){
 //Når man trykker får man pikser kordinater, gjør om dette til %kordinater kanskje også
 //sjekker hvilket brett og hvilken rute pikslene er innom.
 
-void userInput(struct Superbrett *superbrett, bool spiller1tur, int musX, int musY){
+void userInput(struct Superbrett *superbrett, bool *spiller1tur, int musX, int musY){
     int valgtBrett = 20;
     for(int i =0; i<9; i++){
         //Det er denne funksjonen vi bruker for brettene, så vi kan bare mappe til piksler og ruter
@@ -84,13 +84,14 @@ void userInput(struct Superbrett *superbrett, bool spiller1tur, int musX, int mu
         return;
     } 
 
-    if(spiller1tur){
+    if(*spiller1tur){
         brett1->brettarray[valgtRute/3][valgtRute%3]='X';
+        *spiller1tur = false;
     }
     else{
         brett1->brettarray[valgtRute/3][valgtRute%3]='O';
+        *spiller1tur = true;
     }
-
     tegnSuperBrett(superbrett);
 }
 

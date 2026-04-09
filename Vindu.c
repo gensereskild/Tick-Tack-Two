@@ -53,7 +53,7 @@ LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPA
         int y = GET_Y_LPARAM(lParam);
         printf("posisjon til mus: %d, %d \n",x,y);
         //tegnSuperBrett(&superbrett);
-        userInput(&superbrett, true, x, y);
+        userInput(&superbrett, &spiller1tur, x, y);
         //printf("Test av superbrett %c \n", superbrett.brettarray[0][0].brettarray[0][0]);
         break;
     }

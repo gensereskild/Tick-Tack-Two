@@ -155,6 +155,7 @@ void brettGrafikk(Superbrett* superBrett, int* piksler){
     
     //TextOut(memDC, 200, 200, "int", 3);
     
+    //Tegner alle karakterene på brettet.
     char streng[2];
     streng[1] = '\0';
 
@@ -163,6 +164,12 @@ void brettGrafikk(Superbrett* superBrett, int* piksler){
         int startY=((i/3)*height/100)*27.5 + 9*height/100;
         for(int j = 0; j<9; j++){
             streng[0] = superBrett->brettarray[i/3][i%3].brettarray[j/3][j%3];
+            if(superBrett->brettarray[i/3][i%3].status==1){
+                streng[0] = 'X';
+            }
+            else if (superBrett->brettarray[i/3][i%3].status==2){
+                streng[0] = 'O';
+            }
             TextOut(memDC, (((j%3)*width/100)*6)+startX, (((j/3)*height/100)*9.5)+startY, streng, 2);
         }
     }

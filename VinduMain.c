@@ -7,6 +7,7 @@
 int width;
 int height;
 int* piksler = NULL;
+bool spiller1tur = true;
 Superbrett superbrett = {
         .brettarray = {{},{},{}}
 };
@@ -47,6 +48,21 @@ int main(int argc, char* argv[]){
             InvalidateRect(hwnd, NULL, FALSE);
             brettGrafikk(&superbrett, piksler);
             // printf("Bitmap Verdi %p \n", bitmap);
+            //sjekkTotalSeier(&superbrett);
+            int resultat = sjekkTotalSeier(&superbrett);
+            
+            if(resultat == 1){
+                TextOut(memDC, 200, 100, "SPILLER 1 Har vunnet", 20);
+            }
+            else if (resultat == 2){
+                TextOut(memDC, 200, 100, "SPILLER 2 Har vunnet", 20);
+            }
+            if(spiller1tur == true){
+                TextOut(memDC, 100, 300, "Spiller 1 sin tur", 17);
+            }
+            else if (spiller1tur == false){
+                TextOut(memDC, 100, 300, "SPILLER 2 sin tur", 17);
+            }
         }
     }
     printf("Test etter");
