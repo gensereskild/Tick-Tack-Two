@@ -3,6 +3,7 @@
 #include "Vindu.h"
 #include <time.h>
 #include "Tick_Tack_Toe.h"
+#include <string.h>
 
 int width;
 int height;
@@ -11,6 +12,8 @@ bool spiller1tur = true;
 Superbrett superbrett = {
         .brettarray = {{},{},{}}
 };
+
+int aktivtBrett = 10;
 
 int main(int argc, char* argv[]){
     width = GetSystemMetrics(SM_CXSCREEN);
@@ -58,10 +61,21 @@ int main(int argc, char* argv[]){
                 TextOut(memDC, 200, 100, "SPILLER 2 Har vunnet", 20);
             }
             if(spiller1tur == true){
-                TextOut(memDC, 100, 300, "Spiller 1 sin tur", 17);
+                TextOut(memDC, 30, 300, "Spiller 1 sin tur", 17);
             }
             else if (spiller1tur == false){
-                TextOut(memDC, 100, 300, "SPILLER 2 sin tur", 17);
+                TextOut(memDC, 30, 300, "SPILLER 2 sin tur", 17);
+            }
+            if(aktivtBrett==10){
+                TextOut(memDC, 30, 200, "Du kan velge brett", 18);
+            }
+            else{
+                char streng[50] = "Du maa spille paa brett ";
+                char streng2[2] = "t";
+                streng2[0]= aktivtBrett + '1';
+                strcat(streng, streng2);
+
+                TextOut(memDC, 30, 200, streng, 30);
             }
         }
     }

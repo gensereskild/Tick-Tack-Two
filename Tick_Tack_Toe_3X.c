@@ -54,6 +54,14 @@ void userInput(struct Superbrett *superbrett, bool *spiller1tur, int musX, int m
     }
     if (valgtBrett==20) return;
 
+    //Sjekker om du har valgt det aktive brettet
+    if(aktivtBrett!=10){
+        if(valgtBrett!=aktivtBrett){
+            printf("Du må spille på brettet som er valgt");
+            return;
+        }
+    }
+
     int startBrettX = (20 + 20*(valgtBrett%3))*width/100;
     int startBrettY = (7.5 + 27*(valgtBrett/3))*height/100;
 
@@ -92,6 +100,9 @@ void userInput(struct Superbrett *superbrett, bool *spiller1tur, int musX, int m
         brett1->brettarray[valgtRute/3][valgtRute%3]='O';
         *spiller1tur = true;
     }
+
+    //Oppdaterer aktivtBrett til valgtRute
+    aktivtBrett=valgtRute;
     tegnSuperBrett(superbrett);
 }
 
@@ -143,8 +154,15 @@ int sjekkTotalSeier(Superbrett *Superbrett){
         }
     }
     int Superstatus = sjekkSeier(&formatert);
-    //tegnBrett(&formatert);
-    //printf("\n %d \n", Superstatus);
+
+    //Sjekker om aktivt brett peker til et ferdig brett, litt random å gjøre det her jeg vet.
+    for(int i =0; i<9; i++){
+        if(Superbrett->brettarray[i/3][i%3].status != 0){
+            if(i==aktivtBrett){
+                aktivtBrett=10;
+            }
+        }
+    }
     return Superstatus;
 }
 

@@ -16,6 +16,10 @@ extern Superbrett superbrett;
 
 extern bool spiller1tur;
 
+//Verdien til AktivtBrett er det brettet som man er nødt til å spille på nå.
+//Har Verdi fra 0-8, har verdi 10 hvis man kan velge brett (Når noen blir ferdig med et brett eller drar til et ferdig brett)
+extern int aktivtBrett;
+
 void tegnBrett(brett* brett);
 
 void initSuperbrett(Superbrett*);
