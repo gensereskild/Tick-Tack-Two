@@ -63,7 +63,6 @@ LRESULT CALLBACK windowProc(HWND window_handle, UINT message, WPARAM wParam, LPA
         
         BitBlt(hdc, 0, 0, width, height, memDC, 0, 0, SRCCOPY);
 
-
         EndPaint(window_handle, &paint);
         return 0;
     }

@@ -57,6 +57,7 @@ void userInput(struct Superbrett *superbrett, bool *spiller1tur, int musX, int m
     //Sjekker om du har valgt det aktive brettet
     if(aktivtBrett!=10){
         if(valgtBrett!=aktivtBrett){
+            printf("ValgtBrett %d, aktivt brett: %d \n", valgtBrett, aktivtBrett);
             printf("Du må spille på brettet som er valgt");
             return;
         }
@@ -80,7 +81,6 @@ void userInput(struct Superbrett *superbrett, bool *spiller1tur, int musX, int m
     printf("Du tryket på rute %d \n", valgtRute);
 
     brett *brett1 = &(superbrett->brettarray[valgtBrett/3][valgtBrett%3]);
-
 
     if(brett1->status!=0){
         printf("Dette Brettet er ugyldig");
