@@ -15,7 +15,8 @@
                 "-lgdi32",
                 "-Wall",
                 "-Wformat",
-                "-g"
+                "-g",
+                "-static"
             ],
             "options": {
                 "cwd": "${fileDirname}"
